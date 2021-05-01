@@ -40,9 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && @$_POST['do'] == 'register') {
         $time       = date('r');
         $message = "------------------------------------------------\n"
                  . "ID: $node_id\n"
+                 . "Contact: $contact\n"
                  . "Time: $time\n"
-                 . "Browser: " . htmlspecialchars($_SERVER['HTTP_USER_AGENT']) . "\n"
-                 . "Contact: $contact\n";
+                 . "Browser: " . htmlspecialchars($_SERVER['HTTP_USER_AGENT']) . "\n";
 
         $fp = fopen('data.txt', 'a');
         fwrite($fp, $message);
