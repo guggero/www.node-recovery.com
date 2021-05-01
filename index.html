@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+          integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" rel="stylesheet">
+    <link crossorigin="anonymous"
+          href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css"
+          integrity="sha512-oc9+XSs1H243/FRN9Rw62Fn8EtxjEYWHXRvjS43YtueEewbS6ObfXcJNyohjHqVKFPoXXUxwc+q1K7Dee6vv9g=="
+          rel="stylesheet">
+    <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+          integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+          rel="stylesheet">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <title>Lightning Network Node Recovery</title></head>
+    <style type="text/css">
+        body {
+            font-size: 110%;
+        }
+    </style>
+<body>
+<nav class="border-bottom navbar navbar-expand-lg shadow-sm top-nav">
+    <a class="navbar-brand" href="index.html"><span>Lightning Network Node Recovery</span></a>
+</nav>
+<div class="container mb-4" style="min-height: 600px; padding-bottom: 100px;">
+    <div class="row mt-4">
+        <div class="col-1"></div>
+        <div class="col-10">
+            <h1 class="mt-1">Lightning Network Node Recovery</h1>
+            <p class="text-muted">All the resources you need to help you recover your LN node.</p>
+            <p class="mt-1">
+                Welcome, Lightning Network node operator!<br/>
+                This page aims to help anyone who has suffered some sort of crash or data loss on their Lightning
+                Network node.<br/>
+                <br/>
+                Currently the content is mostly focused on
+                <a href="https://github.com/lightningnetwork/lnd"><code>lnd</code></a> (disclaimer: the initial author
+                of this page is <a href="https://github.com/guggero">guggero</a> who works for Lightning Labs).
+                Contributions to this page are welcome, especially if they target other implementations! Please submit
+                a <a href="https://github.com/guggero/www.node-recovery.com/pulls">Pull Request here.</a>
+            </p>
+            <h2 class="mt-2">Links</h2>
+            <ul>
+                <li>
+                    <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/recovery">
+                        Official lnd recovery guide:
+                    </a>
+                    Use if you have your <code>lnd</code> wallet seed and a
+                    <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/safety#static-channel-backups-scbs">
+                        Static Channel Backup
+                    </a>
+                    file (<code>channel.backup</code>).
+                </li>
+                <li>
+                    <a href="https://github.com/guggero/chantools">guggero chantools:</a> Use if the above guide did
+                    not recover all funds and you have a version of the <code>channel.db</code> file.
+                </li>
+                <li>
+                    <a href="https://medium.com/@guggero/did-you-lose-funds-on-the-lightning-network-because-of-a-disk-crash-8971b6a92494">
+                        How to recover channels without an SCB file:
+                    </a>
+                    Use if you only have your <code>lnd</code> wallet seed but no channel backup file.
+                </li>
+                <li>
+                    <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/safety">
+                        Operational Safety Guide:
+                    </a>
+                    Read this to avoid any future data loss! This is a must-read article for anyone that's operating
+                    an <code>lnd</code> node (most of it also applies to other implementations).
+                </li>
+            </ul>
+            <h2 class="mt-5">Zombie Channel Recovery Matcher (alpha)</h2>
+
+            <h3 class="mt-4">What's this?</h3>
+            This is a simple tool to help node operators who ran into the
+            <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/safety#zombie-channels">
+                Zombie Channel problem
+            </a> during fund recovery: One or more of their channel peers were offline at the time of the recovery so
+            the channels couldn't be closed.<br/>
+            With this form such a node operator can register their node and submit any form of contact information.
+            It is very likely that the remote peer also has the same problem (they weren't able to recover funds) so if
+            they also register here, I can match them up.
+
+            <h3 class="mt-4">What happens if there's match?</h3>
+            With the help of <a href="https://github.com/guggero/chantools">chantools</a> it is possible to close a
+            channel even if both nodes only have the seed available. They need to cooperate and communicate though. I
+            will contact both peers if there is a match and help them negotiate a channel close.
+
+            <h3 class="mt-4">How do you know the channel balance?</h3>
+            This will be the most tricky part. That information is not recoverable anymore. Therefore I will ask both
+            of the involved peers for an estimate on their balance on the target channel. If both estimates agree, cool!
+            If there is no agreement, I will go ahead and offer both sides exactly 50% of the funds (after fees). That
+            might not be fair in all cases but is better than losing the funds forever.
+
+            <h3 class="mt-4">Do I need to give you my seed?</h3>
+            <b>No!</b> If both peers cooperate, everything can be done through
+            <a href="https://github.com/bitcoin/bips/blob/master/bip-0174.mediawiki">PSBTs</a> which means both parties
+            need to sign the transaction (using <code>chantools</code>) but don't need to give the seed to anyone.
+
+            <h3 class="mt-4">Why should I trust you?</h3>
+            <b>You shouldn't!</b> Even though I work on the Lightning Network full time (and in my spare time as well)
+            and have absolutely no interest in cheating anyone out of their funds, you still should be careful to enter
+            your node information anywhere. This should be your absolute last resort and you should try all the guides
+            linked above first!
+
+            <h3 class="mt-4">Submit your information to get notified on a match</h3>
+            <form method="post" action="" id="register_form" onsubmit="return processForm()">
+                <input type="hidden" name="do" value="register" />
+
+                <div class="form-group">
+                    <label for="node_id">Node ID (<code>identity_pubkey</code>)</label>
+                    <input id="node_id" class="form-control" type="text" name="node_id" size="66" maxlength="66" />
+                </div>
+
+                <div class="form-group">
+                    <label for="contact">How to contact on match (email, Twitter, Telegram, ...)</label>
+                    <input id="contact" class="form-control" type="text" name="contact" size="66" maxlength="66" />
+                </div>
+
+                <div class="form-group">
+                    <label for="captcha_code">
+                        CAPTCHA code
+                        <br/>
+                        <img id="captcha" src="/securimage/securimage_show.php" alt="CAPTCHA Image" />
+                        <a href="javascript:void()" onclick="reloadCaptcha()">
+                            <img src="securimage/images/refresh.png" width="24" />
+                        </a>
+                    </label>
+                    <input id="captcha_code" class="form-control" type="text" name="captcha_code" size="10" maxlength="6" />
+
+                </div>
+                <button type="submit" class="btn btn-primary">Notify me on match</button>
+            </form>
+
+            <div id="success_message" style="display:none" class="alert alert-success mt-2">
+                Thank you for submitting your information, I will contact you as soon as there is a match.
+            </div>
+        </div>
+        <div class="col-1"></div>
+    </div>
+</div>
+<script crossorigin="anonymous" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.min.js"
+        integrity="sha512-8qmis31OQi6hIRgvkht0s6mCOittjMa9GMqtK9hes5iEQBQE/Ca6yGE5FsW36vyipGoWQswBj/QBm2JR086Rkw=="
+        crossorigin="anonymous"></script>
+<script crossorigin="anonymous"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $.noConflict();
+
+    function reloadCaptcha() {
+        jQuery('#captcha').prop('src', './securimage/securimage_show.php?sid=' + Math.random());
+    }
+
+    function processForm() {
+        jQuery.ajax({
+            url: 'submit.php',
+            type: 'POST',
+            data: jQuery('#register_form').serialize(),
+            dataType: 'json'
+        }).done(function(data) {
+            if (data.error === 0) {
+                jQuery('#success_message').show();
+                jQuery('#register_form')[0].reset();
+                reloadCaptcha();
+                setTimeout("jQuery('#success_message').fadeOut()", 12000);
+            } else {
+                alert("There was an error with your submission.\n\n" + data.message);
+
+                if (data.message.indexOf('Incorrect security code') >= 0) {
+                    jQuery('#captcha_code').val('');
+                }
+            }
+        });
+
+        return false;
+    }
+</script>
+</body>
+</html>
