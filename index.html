@@ -41,14 +41,16 @@
             <h2 class="mt-2">Links</h2>
             <ul>
                 <li>
-                    <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/recovery">
+                    <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/disaster-recovery">
                         Official lnd recovery guide:
                     </a>
                     Use if you have your <code>lnd</code> wallet seed and a
                     <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/safety#static-channel-backups-scbs">
                         Static Channel Backup
                     </a>
-                    file (<code>channel.backup</code>).
+                    file (<code>channel.backup</code>).<br/>
+                    The <a href="https://github.com/lightningnetwork/lnd/blob/master/docs/recovery.md"> old version of the same
+                    recovery guide can be found here.</a>
                 </li>
                 <li>
                     <a href="https://github.com/guggero/chantools">guggero chantools:</a> Use if the above guide did
@@ -66,6 +68,12 @@
                     </a>
                     Read this to avoid any future data loss! This is a must-read article for anyone that's operating
                     an <code>lnd</code> node (most of it also applies to other implementations).
+                </li>
+                <li>
+                    <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/recovery-planning-for-failure">
+                        How to avoid recovery in the future:
+                    </a>
+                    Best practices for avoiding failures with Lightning Nodes.
                 </li>
             </ul>
             <h2 class="mt-5">Zombie Channel Recovery Matcher (alpha)</h2>
